@@ -55,6 +55,19 @@ KeyboardProc(
             input.type = INPUT_KEYBOARD;
             input.ki.wVk = VK_MEDIA_PLAY_PAUSE;
         }
+
+        if (IsControlActive() && IsAltActive() && hs->vkCode == VK_OEM_PLUS)
+        {
+            input.type      = INPUT_KEYBOARD;
+            input.ki.wVk    = VK_VOLUME_UP;
+        }
+
+        if (IsControlActive() && IsAltActive() && hs->vkCode == VK_OEM_MINUS)
+        {
+            input.type = INPUT_KEYBOARD;
+            input.ki.wVk = VK_VOLUME_DOWN;
+        }
+
         UINT uSend = SendInput(1, &input, sizeof(INPUT));
 
         if (uSend != 1)
