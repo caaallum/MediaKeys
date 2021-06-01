@@ -7,23 +7,11 @@
 
 HHOOK g_hook;
 
-BOOL
-IsShiftActive();
-
-BOOL
-IsControlActive();
-
-BOOL
-IsAltActive();
-
-BOOL
-IsRightArrowActive();
-
-BOOL
-IsLeftArrowActive();
-
 LRESULT
 CALLBACK
 KeyboardProc(int, WPARAM, LPARAM);
+
+BOOL
+IsControlComboActive();
 
 #endif //!__MEDIAKEYS__
