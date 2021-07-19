@@ -3,17 +3,23 @@ project (MediaKeys VERSION 1.0.0.0)
 
 include_directories("${PROJECT_SOURCE_DIR}/src")
 
-# Optional unicode config
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /UMBCS /D_UNICODE /DUNICODE")
-
 file(
-	GLOB
-    SOURCES
-    "include/*.h"
-    "src/*.c"
+  GLOB
+  SOURCES
+  "include/*.h"
+  "src/*.c"
 )
 
-add_executable (MediaKeys WIN32 ${SOURCES})
+IF (WIN32)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /UMBCS /D_UNICODE /DUNICODE")
+  add_executable (MediaKeys WIN32 ${SOURCES})
+ELSE()
+  #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lX11")
+  SET(CMAKE_C_COMPILER gcc)
+  add_executable(MediaKeys ${SOURCES})
+  #target_compile_options(MediaKeys PRIVATE -lX11)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lX11")
+ENDIF()
 
 # Set include directory search paths
 target_include_directories(MediaKeys 
