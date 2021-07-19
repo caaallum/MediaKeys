@@ -1,6 +1,5 @@
 #include "mediakeys.h"
-#include "config.h"
-
+#ifdef WIN32
 int
 WINAPI
 wWinMain(
@@ -86,3 +85,64 @@ IsControlComboActive()
 {
     return GetKeyState(VK_CONTROL) < 0 && GetKeyState(VK_MENU) & 0x8000;
 }
+
+#else
+
+int main(int argc, char const *argv[])
+{
+    for (;;)
+    {
+        if (IsKeyActive(XK_Control_L) && IsKeyActive(XK_Alt_L))
+            printf("True\n");
+        else 
+            printf("False\n");
+    }
+    return 0;
+}
+
+BOOL
+IsControlComboActive()
+{
+    Display* display = XOpenDisplay(NULL);
+    KeyCode ctrl = XKeysymToKeycode(display, XK_Control_L);
+    KeyCode alt = XKeysymToKeycode(display, XK_Alt_L);
+    if (ctrl == 0 || alt == 0)
+        return(FALSE);
+
+    char keys[32];
+    XQueryKeymap(display, keys);
+    XCloseDisplay(display);
+
+    return (((keys[ctrl / 8]) & (1 << (ctrl % 8))) != 0) &&
+           (((keys[alt / 8]) & (1 << (ctrl % 8))) != 0);
+}
+
+BOOL
+IsKeyActive(KeySym keysym)
+{
+    /* Open connection to X server */
+    Display* display = XOpenDisplay(NULL);
+
+    KeyCode keycode = XKeysymToKeycode(display, keysym);
+    if (keycode != 0)
+    {
+        /* Get the whole keyboard state */
+        char keys[32];
+        XQueryKeymap(display, keys);
+
+        /* Close the connection with the X server */
+        XCloseDisplay(display);
+
+        /* Check keycode */
+        return (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
+    }
+    else
+    {
+        /* Close the connection with the X server */
+        XCloseDisplay(display);
+
+        return(FALSE);
+    }
+}
+
+#endif //!WIN32
