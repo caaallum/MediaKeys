@@ -6,3 +6,7 @@
  * <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Left</kbd> : **Previous**
  * <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>-</kbd> : **Volume down**
  * <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>+</kbd> : **Volume up**
+
+ ## TODO
+ - [ ] Add handle for each key combo
+ - [ ] Simulate keypress on linux
