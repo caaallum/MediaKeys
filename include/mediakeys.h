@@ -24,15 +24,6 @@ int
 main(int argc, char const *argv[]);
 
 BOOL
-IsControlComboActive();
-
-BOOL
-IsControlActive();
-
-BOOL
-IsAltActive();
-
-BOOL
 IsKeyActive(KeySym);
 
 #endif //!WIN32

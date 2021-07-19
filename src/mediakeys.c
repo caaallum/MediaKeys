@@ -101,23 +101,6 @@ int main(int argc, char const *argv[])
 }
 
 BOOL
-IsControlComboActive()
-{
-    Display* display = XOpenDisplay(NULL);
-    KeyCode ctrl = XKeysymToKeycode(display, XK_Control_L);
-    KeyCode alt = XKeysymToKeycode(display, XK_Alt_L);
-    if (ctrl == 0 || alt == 0)
-        return(FALSE);
-
-    char keys[32];
-    XQueryKeymap(display, keys);
-    XCloseDisplay(display);
-
-    return (((keys[ctrl / 8]) & (1 << (ctrl % 8))) != 0) &&
-           (((keys[alt / 8]) & (1 << (ctrl % 8))) != 0);
-}
-
-BOOL
 IsKeyActive(KeySym keysym)
 {
     /* Open connection to X server */
