@@ -1,2 +1,2 @@
 all:
-	gcc -o mediakeys -I include/ src/mediakeys.c -lX11
+	gcc -o mediakeys -I include/ src/mediakeys.c -lX11 -lXtst
