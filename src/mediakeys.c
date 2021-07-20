@@ -92,12 +92,42 @@ int main(int argc, char const *argv[])
 {
     for (;;)
     {
-        if (IsKeyActive(XK_Control_L) && IsKeyActive(XK_Alt_L))
-            printf("True\n");
-        else 
-            printf("False\n");
+        /* Previous */
+        if (IsControlComboActive() && IsKeyActive(XK_Left))
+            SimulateKeyPress(XK_Prior);
+
+        /* Next */
+        if (IsControlComboActive() && IsKeyActive(XK_Right))
+            SimulateKeyPress(XK_Next);
+        
+        /* Pause */
+        if (IsControlComboActive() && IsKeyActive(XK_space))
+            SimulateKeyPress(XK_Pause);
     }
     return 0;
+}
+
+BOOL
+IsControlComboActive()
+{
+    return IsKeyActive(XK_Control_L) && IsKeyActive(XK_Alt_L);
+}
+
+void
+SimulateKeyPress(KeySym keysym)
+{
+    /* Open connection to X server */
+    Display* display = XOpenDisplay(NULL);
+
+    /* Get keycode */
+    KeyCode keycode = XKeysymToKeycode(display, keysym);
+
+    /* Simulate key press */
+    XTestFakeKeyEvent(display, keycode, True, 0);
+    XTestFakeKeyEvent(display, keycode, False, 0);
+    
+    /* Close connection to X server */
+    XCloseDisplay(display);
 }
 
 BOOL

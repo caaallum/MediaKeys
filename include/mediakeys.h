@@ -19,9 +19,16 @@ typedef int BOOL;
 #define FALSE 0
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
+#include <X11/extensions/XTest.h>
 
 int
 main(int argc, char const *argv[]);
+
+BOOL
+IsControlComboActive();
+
+void
+SimulateKeyPress(KeySym);
 
 BOOL
 IsKeyActive(KeySym);
