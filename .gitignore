@@ -1,6 +1,16 @@
+# IDE
+.vscode/
+.idea/
+
+# CMake
 build/
+cmake-build-debug/
+cmake-build-release/
+
+# Installer
 Installer/MediaKeys.exe
 Installer/MediaKeysSetup.exe
+
+# Binaries
 a.out
-.vscode/
 mediakeys
