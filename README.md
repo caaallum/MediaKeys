@@ -8,5 +8,6 @@
  * <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>+</kbd> : **Volume up**
 
  ## TODO
+ - [ ] Add key customization GUI
  - [ ] Add handle for each key combo
  - [ ] Simulate keypress on linux
