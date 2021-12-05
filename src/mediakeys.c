@@ -1,4 +1,5 @@
-#include "mediakeys.h"
+#include <mediakeys.h>
+
 #ifdef WIN32
 int
 WINAPI
@@ -32,10 +33,9 @@ KeyboardProc(
 )
 {
     INPUT input = { 0 };
-    WCHAR buffer[50];
     if (wParam == WM_KEYDOWN)
     {
-        KBDLLHOOKSTRUCT* hs = lParam;
+        KBDLLHOOKSTRUCT* hs = (KBDLLHOOKSTRUCT*)lParam;
 
         /* Next song */
         if (IsControlComboActive() && hs->vkCode == VK_RIGHT)

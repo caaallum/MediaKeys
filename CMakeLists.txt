@@ -6,7 +6,6 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 file(
   GLOB
   SOURCES
-  "include/*.h"
   "src/*.c"
 )
 
@@ -14,11 +13,11 @@ IF (WIN32)
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /UMBCS /D_UNICODE /DUNICODE")
   add_executable (MediaKeys WIN32 ${SOURCES})
 ELSE()
-  #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lX11")
   SET(CMAKE_C_COMPILER gcc)
-  add_executable(MediaKeys ${SOURCES})
-  #target_compile_options(MediaKeys PRIVATE -lX11)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lX11")
+  find_package(X11 REQUIRED)
+  add_executable(MediaKeys ${SOURCES} include/stdafx.h)
+  link_libraries(${X11_LIBRARIES})
+  include_directories(${X11_INCLUDE_DIR})
 ENDIF()
 
 # Set include directory search paths
