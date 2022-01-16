@@ -1,6 +1,7 @@
 #include <mediakeys.h>
 
 #ifdef WIN32
+
 int
 WINAPI
 wWinMain(
@@ -88,8 +89,10 @@ IsControlComboActive()
 
 #else
 
-int main(int argc, char const *argv[])
+int
+main(int argc, char** argv)
 {
+    int i = 0;
     for (;;)
     {
         /* Previous */
@@ -99,15 +102,18 @@ int main(int argc, char const *argv[])
         /* Next */
         if (IsControlComboActive() && IsKeyActive(XK_Right))
             SimulateKeyPress(XK_Next);
-        
+
         /* Pause */
         if (IsControlComboActive() && IsKeyActive(XK_space))
-            SimulateKeyPress(XK_Pause);
+        {
+            printf("Pause %d\n", i);
+            i++;
+            //SimulateKeyPress(XK_Pause);
+        }
     }
-    return 0;
 }
 
-BOOL
+Bool
 IsControlComboActive()
 {
     return IsKeyActive(XK_Control_L) && IsKeyActive(XK_Alt_L);
@@ -125,37 +131,37 @@ SimulateKeyPress(KeySym keysym)
     /* Simulate key press */
     XTestFakeKeyEvent(display, keycode, True, 0);
     XTestFakeKeyEvent(display, keycode, False, 0);
-    
+
     /* Close connection to X server */
-    XCloseDisplay(display);
+    XFlush(display);
 }
 
-BOOL
+Bool
 IsKeyActive(KeySym keysym)
 {
     /* Open connection to X server */
     Display* display = XOpenDisplay(NULL);
 
+    if (display == NULL)
+        return(False);
+
     KeyCode keycode = XKeysymToKeycode(display, keysym);
-    if (keycode != 0)
-    {
-        /* Get the whole keyboard state */
-        char keys[32];
-        XQueryKeymap(display, keys);
-
-        /* Close the connection with the X server */
-        XCloseDisplay(display);
-
-        /* Check keycode */
-        return (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
-    }
-    else
+    if (keycode == 0)
     {
         /* Close the connection with the X server */
         XCloseDisplay(display);
-
-        return(FALSE);
+        return(False);
     }
+
+    /* Get the whole keyboard state */
+    char keys[32];
+    XQueryKeymap(display, keys);
+
+    /* Close the connection with the X server */
+    XCloseDisplay(display);
+
+    /* Check keycode */
+    return (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
 }
 
 #endif //!WIN32

@@ -13,12 +13,6 @@ HHOOK g_hook;
 #   include <X11/Xlib.h>
 #   include <X11/extensions/XTest.h>
 #   include <X11/keysym.h>
-#   ifndef BOOLEAN
-#   define BOOLEAN
-    typedef int BOOL;
-#   define TRUE 1
-#   define FALSE 0
-#endif//BOOLEAN
 #endif//WIN32
 
 #endif//__STDAFX_H__

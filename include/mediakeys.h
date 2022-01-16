@@ -5,24 +5,23 @@
 
 #ifdef WIN32
 
-
 LRESULT
 CALLBACK
 KeyboardProc(int, WPARAM, LPARAM);
 
 BOOL
 IsControlComboActive();
-#else
-int
-main(int argc, char const* argv[]);
 
-BOOL
+#else
+
+Bool
 IsControlComboActive();
 
 void
 SimulateKeyPress(KeySym);
 
-BOOL
+Bool
 IsKeyActive(KeySym);
+
 #endif//WIN32
 #endif//__MEDIAKEYS__
