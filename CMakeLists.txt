@@ -9,15 +9,17 @@ file(
   "src/*.c"
 )
 
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
 IF (WIN32)
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /UMBCS /D_UNICODE /DUNICODE")
-  add_executable (MediaKeys WIN32 ${SOURCES})
+  add_executable(MediaKeys WIN32 ${SOURCES})
 ELSE()
-  SET(CMAKE_C_COMPILER gcc)
   find_package(X11 REQUIRED)
-  add_executable(MediaKeys ${SOURCES} include/stdafx.h)
-  link_libraries(${X11_LIBRARIES})
   include_directories(${X11_INCLUDE_DIR})
+  add_executable(MediaKeys ${SOURCES})
+  target_link_options(MediaKeys PRIVATE -lX11 -lXtst)
+  target_link_libraries(MediaKeys PRIVATE ${X11_LIBRARIES})
 ENDIF()
 
 # Set include directory search paths
