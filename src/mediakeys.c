@@ -92,7 +92,6 @@ IsControlComboActive()
 int
 main(int argc, char** argv)
 {
-    int i = 0;
     for (;;)
     {
         /* Previous */
@@ -105,11 +104,7 @@ main(int argc, char** argv)
 
         /* Pause */
         if (IsControlComboActive() && IsKeyActive(XK_space))
-        {
-            printf("Pause %d\n", i);
-            i++;
-            //SimulateKeyPress(XK_Pause);
-        }
+            SimulateKeyPress(XK_Pause);
     }
 }
 
