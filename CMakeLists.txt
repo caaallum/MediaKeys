@@ -22,18 +22,3 @@ target_include_directories(MediaKeys
     "${PROJECT_BINARY_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/"
 )
-
-# Set executable RPATH
-set_target_properties(MediaKeys
-  PROPERTIES
-      INSTALL_RPATH
-        "${CMAKE_INSTALL_PREFIX}/lib"
-)
-
-# Set executable install location
-install(TARGETS MediaKeys DESTINATION bin)
-
-# Set install location for resources
-install(DIRECTORY content
-  DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME}"
-)
