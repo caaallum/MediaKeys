@@ -1,24 +1,28 @@
-cmake_minimum_required (VERSION 3.19.2)
-project (MediaKeys VERSION 1.0.0.0)
+cmake_minimum_required(VERSION 3.19.2)
 
-include_directories("${PROJECT_SOURCE_DIR}/src")
+project(MediaKeys VERSION 1.0.0.0)
 
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(FETCHCONTENT_QUIET OFF)
 
-IF (WIN32)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /UMBCS /D_UNICODE /DUNICODE")
-  add_executable(MediaKeys WIN32 src/win.c src/mediakeys.c)
-ELSE()
-  find_package(X11 REQUIRED)
-  include_directories(${X11_INCLUDE_DIR})
-  add_executable(MediaKeys src/linux.c src/mediakeys.c)
-  target_link_options(MediaKeys PRIVATE -lX11 -lXtst)
-  target_link_libraries(MediaKeys PRIVATE ${X11_LIBRARIES})
-ENDIF()
+include(FetchContent)
+FetchContent_Declare(winui
+    GIT_REPOSITORY      https://github.com/caaallum/winui.git
+    GIT_SHALLOW         TRUE
+)
 
-# Set include directory search paths
-target_include_directories(MediaKeys 
-  PRIVATE
-    "${PROJECT_BINARY_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+FetchContent_Declare(json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
+)
+
+FetchContent_MakeAvailable(winui json)
+
+add_subdirectory(MediaConfig)
+add_subdirectory(MediaKeys)
+
+FILE(GLOB SRC
+	src/mediakeys.cxx
+	src/config.cxx
+	src/config.h
+	src/window.cxx
+	src/window.h
 )
